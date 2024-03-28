@@ -6,6 +6,10 @@ This service can be started in your IDE without a specific profile, or from the 
 
 The service uses an in-memory H2 database. The beer data is loaded from the JSON files in the resource folder.
 
+- Spring Boot 3.2.4
+- JDK 17
+- Maven 3.9.0
+
 ## OpenAPI definition
 http://localhost:8080/swagger-ui/index.html
 
