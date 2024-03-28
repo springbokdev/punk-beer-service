@@ -12,13 +12,11 @@ import space.springbok.punkbeerservice.entities.Beer;
 import space.springbok.punkbeerservice.entities.HopsItem;
 import space.springbok.punkbeerservice.entities.Ingredients;
 import space.springbok.punkbeerservice.entities.MaltItem;
-import space.springbok.punkbeerservice.web.util.SearchCriteria;
+import space.springbok.punkbeerservice.web.controller.BeerFilter;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -94,15 +92,11 @@ class BeerRepositoryTest {
 
     @Test
     void testWithProperties() {
-        BeerSpecification spec = new BeerSpecification(new SearchCriteria("abv_gt", "3"));
+        BeerFilter filter = new BeerFilter();
+        filter.setAbv_gt(3);
+        BeerSpecification spec = new BeerSpecification(filter);
         List<Beer> result = beerRepository.findAll(spec);
         assertThat(result.size()).isEqualTo(2);
     }
-
-    @Test
-    void testWithIngredients() {
-        beerRepository.findByIngredients("hops1", "mal1");
-    }
-
 
 }

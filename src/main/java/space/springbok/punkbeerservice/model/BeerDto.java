@@ -42,7 +42,6 @@ public class BeerDto {
 
 	private Integer attenuationLevel;
 
-
 	private Volume volume;
 
 	private BoilVolume boilVolume;

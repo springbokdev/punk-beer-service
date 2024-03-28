@@ -1,5 +1,7 @@
 package space.springbok.punkbeerservice.repositories;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -23,7 +25,7 @@ public interface BeerRepository extends JpaRepository<Beer, Long>, JpaSpecificat
                     "WHERE soundex(mi.name) = soundex(:maltName) ",
             nativeQuery = true
     )
-    List<Beer> findByIngredients(String hopsName, String maltName);
+    Page<Beer> findByIngredients(String hopsName, String maltName, Pageable pageable);
 
 
 }

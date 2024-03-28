@@ -3,17 +3,22 @@ package space.springbok.punkbeerservice.services.impl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import space.springbok.punkbeerservice.mapper.BeerMapper;
 import space.springbok.punkbeerservice.model.BeerDto;
 import space.springbok.punkbeerservice.repositories.BeerRepository;
+import space.springbok.punkbeerservice.repositories.BeerSpecification;
 import space.springbok.punkbeerservice.services.BeerService;
+import space.springbok.punkbeerservice.web.controller.BeerFilter;
+import space.springbok.punkbeerservice.web.controller.NotFoundException;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
-import java.util.stream.Collectors;
+
+import static java.util.Objects.isNull;
 
 @Slf4j
 @Service
@@ -26,21 +31,20 @@ public class BeerServiceImpl implements BeerService {
     private final BeerMapper beerMapper;
 
     @Override
-    public Optional<BeerDto> getBeerById(Long id) {
-
+    public BeerDto getBeerById(Long id) {
         Optional<space.springbok.punkbeerservice.entities.Beer> beer = beerRepository.findById(id);
 
         if (beer.isPresent()) {
             BeerDto beerDto = beerMapper.beerToBeerDto(beer.get());
-            return Optional.of(beerDto);
+            return beerDto;
         } else {
-            return Optional.empty();
+            log.warn("Cannot find beer with id: {}", id);
+            throw new NotFoundException("Cannot find beer with id: " + id);
         }
-
     }
 
     @Override
-    public Optional<BeerDto> getRandomBeer() {
+    public BeerDto getRandomBeer() {
         List<Long> idList = beerRepository.findAll().stream().map(space.springbok.punkbeerservice.entities.Beer::getId).toList();
         int randomIndex = random.nextInt(idList.size());
         Long randomId = idList.get(randomIndex);
@@ -49,21 +53,24 @@ public class BeerServiceImpl implements BeerService {
         if (randomBeer.isPresent()) {
             return getBeerById(randomBeer.get().getId());
         } else {
-            return Optional.empty();
+            log.warn("Cannot get a random beer");
+            throw new NotFoundException("Cannot get a random beer");
         }
     }
 
     @Override
-    public Page<BeerDto> findAll(Pageable pageable) {
-        return beerRepository.findAll(pageable).map(BeerMapper.INSTANCE::beerToBeerDto);
+    public Page<BeerDto> findBeers(BeerFilter beerFilter) {
 
-    }
+        BeerSpecification spec = new BeerSpecification(beerFilter);
+        Pageable pageable = PageRequest.of(beerFilter.getPer(), beerFilter.getPerPage());
 
-    @Override
-    public List<BeerDto> findByIngredients(String hopsName, String maltName) {
-        return beerRepository.findByIngredients(hopsName, maltName).stream()
-                .map(beer -> BeerMapper.INSTANCE.beerToBeerDto(beer))
-                .collect(Collectors.toList());
+        if (!isNull(beerFilter.getHops()) || !isNull(beerFilter.getMalt())) {
+            return beerRepository.findByIngredients(beerFilter.getHops(), beerFilter.getMalt(),pageable)
+                .map(beer -> BeerMapper.INSTANCE.beerToBeerDto(beer));
+        } else {
+            return beerRepository.findAll(spec, pageable).map(BeerMapper.INSTANCE::beerToBeerDto);
+        }
+
     }
 
 }
