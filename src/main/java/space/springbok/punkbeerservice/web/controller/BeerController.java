@@ -22,7 +22,7 @@ public class BeerController {
     @GetMapping(value = BEER_PATH_ID)
     public ResponseEntity<BeerDto> getBeerById(@PathVariable("beerId") Long beerId){
         log.info("Get Beer by Id");
-        return new ResponseEntity(beerService.getBeerById(beerId), HttpStatus.OK);
+        return new ResponseEntity<>(beerService.getBeerById(beerId), HttpStatus.OK);
     }
 
     @GetMapping(value = BEER_PATH + "/random")
