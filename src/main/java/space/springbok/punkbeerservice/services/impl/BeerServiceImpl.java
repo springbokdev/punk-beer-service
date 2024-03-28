@@ -35,8 +35,7 @@ public class BeerServiceImpl implements BeerService {
         Optional<space.springbok.punkbeerservice.entities.Beer> beer = beerRepository.findById(id);
 
         if (beer.isPresent()) {
-            BeerDto beerDto = beerMapper.beerToBeerDto(beer.get());
-            return beerDto;
+            return beerMapper.beerToBeerDto(beer.get());
         } else {
             log.warn("Cannot find beer with id: {}", id);
             throw new NotFoundException("Cannot find beer with id: " + id);
@@ -66,7 +65,7 @@ public class BeerServiceImpl implements BeerService {
 
         if (!isNull(beerFilter.getHops()) || !isNull(beerFilter.getMalt())) {
             return beerRepository.findByIngredients(beerFilter.getHops(), beerFilter.getMalt(),pageable)
-                .map(beer -> BeerMapper.INSTANCE.beerToBeerDto(beer));
+                .map(BeerMapper.INSTANCE::beerToBeerDto);
         } else {
             return beerRepository.findAll(spec, pageable).map(BeerMapper.INSTANCE::beerToBeerDto);
         }
