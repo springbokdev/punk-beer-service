@@ -137,5 +137,17 @@ class BeerControllerIT {
                 .andExpect(jsonPath("$.content.size()", is(3)));
     }
 
+    @Test
+    void listBeersByBrewedAfter() throws Exception{
+        mockMvc.perform(get(BeerController.BEER_PATH)
+                        .queryParam("page","0")
+                        .queryParam("perPage", "25")
+                        .queryParam("brewed_after", "04/2000"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.number", is(0)))
+                .andExpect(jsonPath("$.size", is(25)))
+                .andExpect(jsonPath("$.content.size()", is(11)));
+    }
+
 
 }

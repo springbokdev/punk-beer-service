@@ -1,5 +1,6 @@
 package space.springbok.punkbeerservice.web.controller;
 
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Getter;
@@ -32,7 +33,10 @@ public class BeerFilter {
 
     @Positive
     private Integer ebc_gt;
+
+    @Positive
     private Integer ebc_lt;
+
     private String beer_name;
     private String yeast;
     private String brewed_before;
