@@ -6,6 +6,9 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
+import java.time.LocalDateTime;
+import java.util.Date;
+
 @Getter
 @Setter
 @Builder
@@ -25,7 +28,7 @@ public class Beer {
 
     private String tagline;
 
-    private String firstBrewed;
+    private Date firstBrewed;
 
     @Size(max = 500)
     private String description;
