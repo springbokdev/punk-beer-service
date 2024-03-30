@@ -24,10 +24,8 @@ password: sa
 - The BeerSpecification for filtering beers is not fully implemented. Missing criteria are:
   - yeast
   - ids
-- Search beers is based on one of the simple properties. An improvement of search can be based on one or more propeties.
+- Search beers is based on one of the simple properties. An improvement of search can be based on one or more properties.
 
 ## FIXME
-- The import of the hops items data from JSON results in duplicates per ingredients in the target database, but for the malt items this is not the case. The source of this problem is in the BootStrapData loader.
 - The native query for retrieving beers based on ingredients (hops and malt) in the BeerRepository interface uses a UNION. This query should be reviewed and refactored.
-- the names of the hops item are not displayed in the HTTP responses, but the names of the malts do!! This is weird. Needs to be fixed.
 
