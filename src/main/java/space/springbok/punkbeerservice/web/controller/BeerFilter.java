@@ -1,6 +1,5 @@
 package space.springbok.punkbeerservice.web.controller;
 
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Getter;

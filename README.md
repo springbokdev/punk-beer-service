@@ -20,7 +20,7 @@ password: sa
 
 ## TODO
 - Validation of the request parameters has been applied to the BeerFilter (annotated with @ModelAttribute). Should be applied to all the request parameters.
-- There is an integration test for the BeerController, but a unit test should also be added for this controller and a unit test for BeerServiceImpl.
+- There is an integration test for the BeerController, but a unit test should also be added for this controller.
 - The BeerSpecification for filtering beers is not fully implemented. Missing criteria are:
   - yeast
   - ids
