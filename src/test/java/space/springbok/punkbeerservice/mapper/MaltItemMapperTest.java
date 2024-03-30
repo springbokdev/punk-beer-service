@@ -17,12 +17,12 @@ class MaltItemMapperTest {
     MaltItemMapper maltItemMapper;
 
     @Test
-    public void testMapping() {
+    void testMapping() {
         MaltItem maltItem1 = new MaltItem();
         maltItem1.setName("malt1");
         MaltItem maltItem2 = new MaltItem();
         maltItem1.setName("malt2");
-        List<space.springbok.punkbeerservice.entities.MaltItem> mapped =maltItemMapper.maltItemDtoToMaltItem(Arrays.asList(maltItem1, maltItem2));
+        List<space.springbok.punkbeerservice.entities.MaltItem> mapped = maltItemMapper.maltItemDtoToMaltItem(Arrays.asList(maltItem1, maltItem2));
 
         assertThat(mapped.size()).isEqualTo(2);
 

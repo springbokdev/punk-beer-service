@@ -74,26 +74,18 @@ public class BootStrapData implements CommandLineRunner {
                 BeerDto beerDto = objectMapper.readValue(file, typeReference);
                 space.springbok.punkbeerservice.entities.Beer beer = beerMapper.beerDtoToBeer(beerDto);
 
-                Optional<Ingredients> ingredientsByYeast = ingredientsRepository.findByYeast(beerDto.getIngredients().getYeast());
+                Ingredients savedIngredients = ingredientsRepository.saveAndFlush(ingredientsMapper.ingredientsDtoToIngredient(beerDto.getIngredients()));
 
-                if (!ingredientsByYeast.isPresent()) {
-                    Ingredients savedIngredients = ingredientsRepository.saveAndFlush(ingredientsMapper.ingredientsDtoToIngredient(beerDto.getIngredients()));
+                List<MaltItem> savedMaltItems = maltItemRepository.saveAllAndFlush( maltItemMapper.maltItemDtoToMaltItem(beerDto.getIngredients().getMalt()));
+                savedMaltItems.stream().forEach(maltItem -> maltItem.setIngredients(savedIngredients));
+                savedIngredients.setMalt(savedMaltItems);
 
-                    List<MaltItem> savedMaltItems = maltItemRepository.saveAllAndFlush( maltItemMapper.maltItemDtoToMaltItem(beerDto.getIngredients().getMalt()));
-                    savedMaltItems.stream().forEach(maltItem -> maltItem.setIngredients(savedIngredients));
-                    savedIngredients.setMalt(savedMaltItems);
+                List<HopsItem> savedHopsItems = hopsItemRepository.saveAllAndFlush(hopsItemMapper.hopsItemDtoToHopsItem(beerDto.getIngredients().getHops()));
+                savedHopsItems.stream().forEach(hopsItem -> hopsItem.setIngredients(savedIngredients));
+                savedIngredients.setHops(savedHopsItems);
 
-                    List<HopsItem> savedHopsItems = hopsItemRepository.saveAllAndFlush(hopsItemMapper.hopsItemDtoToHopsItem(beerDto.getIngredients().getHops()));
-                    savedHopsItems.stream().forEach(hopsItem -> hopsItem.setIngredients(savedIngredients));
-                    savedIngredients.setHops(savedHopsItems);
-
-                    beer.setIngredients(savedIngredients);
-                    beerRepository.save(beer);
-                } else {
-                    beer.setIngredients(ingredientsByYeast.get());
-                    beerRepository.save(beer);
-                }
-
+                beer.setIngredients(savedIngredients);
+                beerRepository.save(beer);
             }
         }
     }

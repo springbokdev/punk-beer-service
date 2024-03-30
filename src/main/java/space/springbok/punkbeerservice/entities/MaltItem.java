@@ -16,6 +16,9 @@ public class MaltItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Embedded
+    private Amount amount;
+
     private String name;
 
     @ManyToOne
