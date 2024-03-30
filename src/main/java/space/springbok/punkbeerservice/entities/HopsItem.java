@@ -1,12 +1,9 @@
 package space.springbok.punkbeerservice.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import space.springbok.punkbeerservice.model.Amount;
+import lombok.*;
 
+@Getter
 @Setter
 @Builder
 @Entity
@@ -19,7 +16,13 @@ public class HopsItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String add;
+
+    @Embedded
+    private Amount amount;
+
     private String name;
+    private String attribute;
 
     @ManyToOne
     private Ingredients ingredients;
