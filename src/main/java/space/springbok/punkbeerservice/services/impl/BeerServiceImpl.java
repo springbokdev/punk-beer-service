@@ -64,7 +64,7 @@ public class BeerServiceImpl implements BeerService {
         Pageable pageable = PageRequest.of(beerFilter.getPer(), beerFilter.getPerPage());
 
         if (!isNull(beerFilter.getHops()) || !isNull(beerFilter.getMalt())) {
-            return beerRepository.findByIngredients(beerFilter.getHops(), beerFilter.getMalt(),pageable)
+            return beerRepository.findByIngredientsNative(beerFilter.getHops(), beerFilter.getMalt(),pageable)
                 .map(BeerMapper.INSTANCE::beerToBeerDto);
         } else {
             return beerRepository.findAll(spec, pageable).map(BeerMapper.INSTANCE::beerToBeerDto);

@@ -67,7 +67,7 @@ class BeerServiceImplTest {
                 .firstBrewed(Date.from(Instant.now()))
                 .build();
         when(beerRepository.findAll()).thenReturn(Arrays.asList(beer1, beer2, beer3));
-        when(beerRepository.findById(1L)).thenReturn(Optional.of(beer1));
+        when(beerRepository.findById(any())).thenReturn(Optional.of(beer1));
         BeerDto randomBeer = beerService.getRandomBeer();
         assertThat(randomBeer).isNotNull();
         assertThat(randomBeer.getId()).isIn(1L, 2L, 3L);
