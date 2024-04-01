@@ -20,12 +20,8 @@ password: sa
 
 ## TODO
 - Validation of the request parameters has been applied to the BeerFilter (annotated with @ModelAttribute). Should be applied to all the request parameters.
-- There is an integration test for the BeerController, but a unit test should also be added for this controller.
 - The BeerSpecification for filtering beers is not fully implemented. Missing criteria are:
   - yeast
   - ids
 - Search beers is based on one of the simple properties. An improvement of search can be based on one or more properties.
-
-## FIXME
-- The native query for retrieving beers based on ingredients (hops and malt) in the BeerRepository interface uses a UNION. This query should be reviewed and refactored.
 
