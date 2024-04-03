@@ -6,8 +6,8 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
-import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -56,6 +56,11 @@ public class Beer {
 
     @Size(max = 500)
     private String brewersTips;
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "beer_food_pairing", joinColumns = @JoinColumn(name = "beer_id"))
+    @Column(name = "food_pairing")
+    private List<String> foodPairing;
 
     private String contributedBy;
 

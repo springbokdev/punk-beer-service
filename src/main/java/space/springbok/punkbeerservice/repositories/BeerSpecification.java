@@ -19,6 +19,7 @@ import static java.util.Objects.isNull;
 
 /**
  *
+ *
  */
 @Slf4j
 @AllArgsConstructor
@@ -69,6 +70,8 @@ public class BeerSpecification implements Specification<Beer> {
                     .map(Integer::parseInt)
                     .collect(Collectors.toList());
             return null;
+        } else if (!isNull(filter.getFood())) {
+            return builder.isMember(filter.getFood(), root.get("foodPairing"));
         }
         return null;
     }
