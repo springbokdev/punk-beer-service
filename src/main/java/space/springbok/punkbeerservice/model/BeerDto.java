@@ -50,9 +50,9 @@ public class BeerDto {
 
 	private Ingredients ingredients;
 
-	private List<String> foodPairing;
-
 	private String brewersTips;
+
+	private List<String> foodPairing;
 
 	private String contributedBy;
 

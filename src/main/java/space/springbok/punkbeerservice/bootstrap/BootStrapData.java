@@ -84,6 +84,8 @@ public class BootStrapData implements CommandLineRunner {
                 savedHopsItems.stream().forEach(hopsItem -> hopsItem.setIngredients(savedIngredients));
                 savedIngredients.setHops(savedHopsItems);
 
+                beer.setFoodPairing(beerDto.getFoodPairing());
+
                 beer.setIngredients(savedIngredients);
                 beerRepository.save(beer);
             }
